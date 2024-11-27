@@ -4,6 +4,7 @@ from model import (get_customers, get_customer,Customer, Order, try_add_customer
 from datetime import datetime, timedelta
 from flask_restful import Api,Resource
 from babel.numbers import format_currency
+import os
 
 app = Flask(__name__,
             template_folder='templates',
@@ -135,6 +136,6 @@ def to_dict(e):
     return d
 
 if __name__ == '__main__':
-    app.run()
-    # port = int(os.environ.get("PORT", 6738))
-    # app.run(host='0.0.0.0', port=port)
+    # app.run()
+    port = int(os.environ.get("PORT", 6738))
+    app.run(host='0.0.0.0', port=port)
