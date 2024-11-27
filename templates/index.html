@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Booking{% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container-fluid">
+        <h5>Request a new Booking Quote</h5>
+        <hr/>
+        <div class="row" style="margin-top: 10px;">
+
+            <div class="col-md-4 form-inline">
+                <select name="customer" id="customer"
+                        onchange="toggleActions(this)"
+                        class="form-control" style="width: 400px;">
+                    <option selected value="0" disabled>--Select a Customer--</option>
+                    {% for c in customers %}
+                        <option class="text-primary" value="{{ c.id }}">{{ c.to_string() }}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+            <div id="div_controls" class="col-md-4">
+                <div class="row">
+                    <button class="btn-sm btn btn-outline-primary menubtn"
+                            onclick="addOrder()"
+                            id="add_order">Add Order
+                    </button>
+                </div>
+                <div class="row">
+                    <button class="btn-sm btn btn-outline-primary menubtn"
+                            onclick="editCustomer(document.getElementById('customer').value)"
+                            id="edit_customer">Edit Customer
+                    </button>
+                </div>
+            </div>
+        </div>
+    <hr/>
+    </div>
+{% endblock %}

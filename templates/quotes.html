@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Quotes{% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <div class="form-group col-sm-6">
+            <h5>Select delivery option for <em class="text-primary"
+                                               style="font-style: normal;">{{ order['description'] }}</em></h5>
+            <hr/>
+        </div>
+        <div role="radiogroup" class="form-group">
+            <fieldset class="form-group"></fieldset>
+            {% if options | length>0 %}
+                {% for option in options %}
+                    <div class="form-check">
+                        <input type="radio" id="{{ loop.index }}" name="quotes" value="{{ option[0] }}">
+                        <label class="form-check-label" for="{{ loop.index }}">{{ option[2] }}</label>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <span>no delivery options</span>
+            {% endif %}
+        </div>
+        <hr/>
+        <div class="container-fluid button-container">
+            <div style="float:left;margin-top:3px;" class="text-center">
+                <button type="submit"
+                        onclick="return enabledQuote(document.getElementById('1'))"
+                        id="submit_order"
+                        title="Ship it"
+                        class="btn btn-sm btn-outline-primary ">Ship it
+                    <i class="fa fa-shipping-fast"></i></button>
+                <button onclick="cancel()"
+                        type="button"
+                        title="Cancel"
+                        class="btn btn-sm btn-outline-danger">Cancel
+                    <i class="fa fa-minus-circle"></i></button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

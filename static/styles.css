@@ -1,0 +1,17 @@
+#div_controls{
+    pointer-events: none;
+}
+#urgent, #is_global ,#is_hazard, #is_urgent {
+    display: none;
+}
+
+.menubtn{
+    width: 200px;
+    margin-bottom: 3px;
+    color:purple;
+    border:1px solid purple;
+}
+.uw{
+    color:purple;
+}
+

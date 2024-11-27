@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Order{% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="col-6 card h-100" style="border: 1px solid purple">
+        <div class="card-body">
+            <h6 class="card-title"><i style="margin-right:5px;" class="fa fa-cart-plus"></i>Add a New Order
+                for {{ customer.to_string() }}</h6>
+            <hr/>
+            <form method="POST">
+                <div class="card-text small container-fluid">
+                    <div class="row align-items-center" style="margin-bottom:3px;">
+                        <label class="col-sm-2" for="description">Description</label>
+                        <input id="description" required type="text" name="description" class="col-sm-8 form-control">
+                    </div>
+                    <div class="row align-items-center">
+                        <label class="col-sm-2" for="deliver_by">Deliver By</label>
+                        <input type="date" required id="deliver_by" name="deliver_by" value="{{ default }}"
+                               min="{{ date }}"
+                               onchange="isUrgent()" class="form-control col-sm-4">
+                        <i style="margin-left:5px;" id="urgent" title="Rush Delivery"
+                           class="fa fa-2x fa-exclamation text-danger"></i>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-sm-3 align-items-center">
+                            <input type="checkbox" id="is_hazardous" name="is_hazardous">
+                            <label for="is_hazardous">Is Hazardous</label>
+                        </div>
+                        <div class="col-sm-3 align-items-center">
+                            <input type="checkbox" id="is_international" name="is_international">
+                            <label for="is_international">Outside USA</label>
+                        </div>
+                    </div>
+                    <div class="row form-group" style="margin-top:10px;">
+                        <label for="volume" class="col-sm-2">Volume</label>
+                        <input type="number" class="col-sm-2" id="volume" value=0 name="volume">
+                    </div>
+                    <div class="row form-group" style="margin-top:3px;">
+                        <label for="weight" class="col-sm-2">Weight</label>
+                        <input type="number" class="col-sm-2" id="weight" value="0" name="weight">
+                    </div>
+                    <hr/>
+                    <div class="align-items-center" style="margin-top:10px;">
+                        <div style="float:left;margin-top:3px;" class="text-center">
+                            <button type="submit"
+                                    onclick="return validateOrder(document.getElementById('volume').value, document.getElementById('weight').value)"
+                                    id="submit"
+                                    title="Get Quotes"
+                                    style="width:120px;"
+                                    class="btn btn-sm btn-outline-primary">
+                                <i style="float:left;margin-top:3px;" class="fa fa-1x fa-print"></i>Get Quotes
+                            </button>
+                            <button onclick="cancel()"
+                                    type="button"
+                                    title="Cancel"
+                                    style="width:120px;"
+                                    class="btn btn-sm btn-outline-danger">
+                                <i  style="float:left;margin-top:3px;"  class="fa fa-minus-circle"></i>Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
