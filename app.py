@@ -84,9 +84,18 @@ def order(id):
                     del options[k]
                 else:
                     deliver_by = " "
-                    if k == 'plane':
-                        deliver_by = f" arriving by {order['deliver_by'].strftime('%d-%b-%Y')} "
-                    entry = (k, v, f"By {k}{deliver_by}for {'${:,.2f}'.format(v)}")
+                    match k:
+                        case 'plane':
+                            deliver_by = order['deliver_by'].strftime('%d-%b-%Y')
+                        case 'truck':
+                            deliver_by =(order['deliver_by'] + timedelta(days=7)).strftime('%d-%b-%Y')
+                        case 'ship':
+                            deliver_by = (order['deliver_by'] + timedelta(days=14)).strftime('%d-%b-%Y')
+
+                    if v==0:
+                        entry = k,v,"Urgent delivery by plane is unavailable for this order"
+                    else:
+                        entry = (k, v, f"by {k} arriving by {deliver_by} for {'${:,.2f}'.format(v)}")
                     opts.append(entry)
             session['quote_data'] = (opts, order)
             return redirect(url_for('quote'))
@@ -119,6 +128,7 @@ def confirm():
     orders= session.get('quote_data')[1]
     selected=session.get('selected_data')
     method=next(x for x in options if x[0]==selected)
+
     return render_template('confirmation.html',order=orders,method=method)
 
 class ApiOrders(Resource):

@@ -44,7 +44,7 @@ class Order(Model):
                    "truck":None,
                    "ship":None}
         if order["is_hazardous"] and urgent:
-            return options
+            options['plane'] = 0
         if not order["is_hazardous"]:
             options['plane']=max(order['volume']*20,order['weight']*10)
         if not order['is_international']:
@@ -126,6 +126,5 @@ def try_delete_customer(id):
         return True
     except Exception as ex:
         return False,ex
-
 
 # init()

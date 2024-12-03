@@ -8,33 +8,17 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div style="display:none;">
-        <input type="text" value="{{ order["is_international"] }}" id="is_global_value">
-        <input type="text" value="{{ order["is_hazardous"] }}" id="is_hazard_value">
-        <input type="text" value="{{ order["is_urgent"] }}" id="is_urgent_value">
-    </div>
     <div class="col-6 card h-100" style="border: 1px solid purple">
         <div class="card-body">
-            <h6 class="card-title"><i style="margin-right:5px;" class="fa fa-shopping-cart"></i>Confirmation for
-                Order '<em style="font-style: normal;color:blue;">{{ order['description'] }}</em>'</h6>
+            <h6 class="card-title"><i style="margin-right:5px;" class="fa fa-shopping-cart"></i><i
+                    style="font-style: normal;font-weight:bold;">Confirmation:</i>
+                <em style="font-style: normal;color:blue;">{{ order['description'] }}</em> delivery {{ method[2] }}</h6>
             <hr/>
 
             <div class="card-text small container-fluid">
                 <div class="row align-items-center" style="margin-bottom:3px;">
                     <label class="col-sm-2" for="description">Description</label>
                     <label id="description" type="la" class="col-sm-8 form-control">{{ order['description'] }}</label>
-                    <i title="Hazardous Cargo" class="fa fa-exclamation-triangle fa-2x" id="is_hazard"
-                       style="color:red;margin-left:5px;"></i>
-                    <i title="International" class="fa fa-globe fa-2x" style="color:blue;margin-left:5px;"
-                       id="is_global"></i>
-                </div>
-                <div class="row align-items-center">
-                    <label class="col-sm-2" for="deliver_by">Deliver By</label>
-                    <label id="deliver_by"
-                           class="form-control col-sm-4">{{ order["deliver_by"].strftime('%d-%b-%Y') }}</label>
-{#                     <i style="color: darkslateblue;margin-left:5px"  title="By {{ method[0] }}" class="fa fa-2x fa-{{ method[0] }}"></i>#}
-                    <i style="margin-left:5px;" id="is_urgent" title="Rush Delivery"
-                       class="fa fa-2x fa-exclamation text-danger"></i>
                 </div>
                 <div class="row form-group" style="margin-top:10px;">
                     <label for="volume" class="col-sm-2">Volume</label>
@@ -45,10 +29,25 @@
                     <label id="volume" type="weight" class="col-sm-2">{{ order["weight"] }}</label>
                 </div>
                 <hr/>
-                <div class="row form-group" style="margin-top:3px;">
+                <div class="row form-group " style="margin-top:3px;">
+                    <label class="col-sm-2">Hazardous</label>
+                    <div class="col-sm-2">
+                        <input type="checkbox" class="text-primary" style="pointer-events: none;"
+                               {% if order["is_hazardous"] == True %} checked
+                        {% endif %}>
+                    </div>
+                </div>
+                <div class="row form-group " style="margin-top:3px;">
+                    <label  class="col-sm-2">International</label>
+                    <div class="col-sm-2">
+                        <input type="checkbox" class="text-primary" style="pointer-events: none;"
+                               {% if order["is_international"] == True %} checked
+                        {% endif %}>
+                    </div>
+                </div>
+                <div class="row form-group text-primary" style="margin-top:3px;background-color: aliceblue;">
                     <label for="cost" class="col-sm-2">Cost</label>
-                    <label id="cost" type="weight" class="col-sm-2">{{ method[1] | dollar}}</label>
-
+                    <label id="cost" type="weight" class="col-sm-2">{{ method[1] | dollar }}</label>
                 </div>
             </div>
         </div>

@@ -19,8 +19,17 @@
             {% if options | length>0 %}
                 {% for option in options %}
                     <div class="form-check">
-                        <input type="radio" id="{{ loop.index }}" name="quotes" value="{{ option[0] }}">
-                        <label class="form-check-label" for="{{ loop.index }}">{{ option[2] }}</label>
+                        <input type="radio" id="{{ loop.index }}"
+                               {% if option[1]==0 %}
+                                style="pointer-events: none;"
+                               {% endif %}
+                               class="form-check-input"
+                               name="quotes" value="{{ option[0] }}">
+                        <label class="form-check-label"
+                                 {% if option[1]==0 %}
+                                style="pointer-events: none;color:darkgray;"
+                               {% endif %}
+                               for="{{ loop.index }}">{{ option[2] }}</label>
                     </div>
                 {% endfor %}
             {% else %}

@@ -19,13 +19,11 @@
                         <label class="col-sm-2" for="description">Description</label>
                         <input id="description" required type="text" name="description" class="col-sm-8 form-control">
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row">
                         <label class="col-sm-2" for="deliver_by">Deliver By</label>
                         <input type="date" required id="deliver_by" name="deliver_by" value="{{ default }}"
-                               min="{{ date }}"
-                               onchange="isUrgent()" class="form-control col-sm-4">
-                        <i style="margin-left:5px;" id="urgent" title="Rush Delivery"
-                           class="fa fa-2x fa-exclamation text-danger"></i>
+                               min="{{ date }}"  onchange="isUrgent()"
+                               class="form-control col-sm-4">
                     </div>
                     <div class="row" style="margin-top:10px;">
                         <div class="col-sm-3 align-items-center">
