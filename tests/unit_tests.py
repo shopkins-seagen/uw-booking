@@ -50,7 +50,39 @@ class TestCase(unittest.TestCase):
         self.assertRegex(response[1],'zero')
 
     def test_is_urgent(self):
-        pass
+        today = datetime.now()
+        self.assertTrue(Order.is_urgent( today + timedelta(days=3)))
+        self.assertFalse(Order.is_urgent(today + timedelta(days=4)))
+
+    def test_shipping_options_1(self):
+        today = datetime.now()
+
+        order = create_order(True,True,today.strftime('%Y-%m-%d'))
+        options = Order.get_shipping_options(order,order['is_urgent'])
+
+        self.assertEqual(options['plane'],0)
+        self.assertEqual(options['truck'],None)
+        self.assertEqual(options['ship'],30)
+
+    def test_shipping_options_2(self):
+        today = datetime.now()
+
+        order = create_order(False,False,today.strftime('%Y-%m-%d'))
+        options = Order.get_shipping_options(order,order['is_urgent'])
+
+        self.assertEqual(options['plane'],float(100))
+        self.assertEqual(options['truck'],float(45))
+        self.assertEqual(options['ship'],None)
+
+    def test_shipping_options_3(self):
+        today = datetime.now() + timedelta(days=5)
+
+        order = create_order(False, True, today.strftime('%Y-%m-%d'),weight=20)
+        options = Order.get_shipping_options(order, order['is_urgent'])
+
+        self.assertEqual(options['plane'], float(200))
+        self.assertEqual(options['truck'], None)
+        self.assertEqual(options['ship'], 30)
 
 
 
@@ -64,6 +96,18 @@ def seed():
                                weight=5.2,volume=3.3,deliver_by=datetime.now() + timedelta(days=5),order_placed=datetime.now(),
                                price=10.2,deliver_method="plane",comment="this is only a test")
         order.save()
+
+def create_order(is_hazardous,is_international,deliver_by,weight=5,volume=5):
+    order = {
+        'description': "description",
+        'is_hazardous': is_hazardous,
+        'is_international': is_international,
+        'weight': float(weight),
+        'volume': float(volume),
+        'is_urgent': Order.is_urgent(datetime.strptime(deliver_by, '%Y-%m-%d')),
+        'deliver_by': datetime.strptime(deliver_by, '%Y-%m-%d')
+    }
+    return order
 
 if __name__ == '__main__':
     unittest.main()
